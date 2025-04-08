@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import ImageUploader from "./components/ImageUploader";
 import ImageViewer from "./components/ImageViewer";
 import Sidebar from "./components/Sidebar";
 import { useStore } from "./store/store";
-import ImageGallery from "./components/ImageGallery";
+// import ImageGallery from "./components/ImageGallery";
+const ImageGallery = React.lazy(() => import("./components/ImageGallery"));
+
 // import "./index.css";
 
 function App() {
@@ -47,6 +49,31 @@ function App() {
     });
   };
 
+  // const [otp, setOtp] = useState(Array(6).fill(""));
+  // const inputRef = useRef([]);
+
+  // const handleChange = (e, index) => {
+  //   const newOtp = [...otp];
+  //   newOtp[index] = e.target.value;
+  //   setOtp(newOtp);
+
+  //   if (e.target.value && index < otp.length - 1) {
+  //     inputRef.current[index + 1].focus();
+  //   }
+  // };
+
+  // const handleKeyDown = (e, index) => {
+  //   if (e.key === "Backspace" && !otp[index] && index > 0) {
+  //     inputRef.current[index - 1].focus();
+  //   }
+  //   if (e.key === "ArrowLeft" && !otp[index] && index > 0) {
+  //     inputRef.current[index - 1].focus();
+  //   }
+  //   if (e.key === "ArrowRight" && !otp[index] && index < otp.length - 1) {
+  //     inputRef.current[index + 1].focus();
+  //   }
+  // };
+
   return (
     <div className="app-container">
       <header className="app-header">
@@ -58,7 +85,17 @@ function App() {
       <div className="main-content">
         {images.length > 0 ? (
           <>
-            <ImageGallery />
+            <Suspense
+              fallback={
+                <>
+                  {" "}
+                  <div>Loading....</div>{" "}
+                </>
+              }
+            >
+              <ImageGallery />
+            </Suspense>
+            {/* <ImageGallery /> */}
           </>
         ) : (
           <div
@@ -84,6 +121,22 @@ function App() {
           </div>
         )}
       </div>
+      {/* <div className="w-full flex items-center justify-center p-16 text-black">
+        {otp.map((digit, index) => {
+          return (
+            <input
+              value={digit}
+              type="text"
+              onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              ref={(el) => (inputRef.current[index] = el)}
+              maxLength={1}
+              className="w-10 h-10 mr-2 text-center text-red-400 border rounded text-lg outline-none focus:ring-2 focus:ring-blue-400"
+              key={index}
+            />
+          );
+        })}
+      </div> */}
     </div>
   );
 }

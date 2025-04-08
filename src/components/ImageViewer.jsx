@@ -11,8 +11,10 @@ const ImageViewer = () => {
     addComment,
     comments,
     setCurrentImageIndex,
+    setActiveCommentId,
+    activeCommentId,
   } = useStore();
-  const [activeCommentId, setActiveCommentId] = useState(null);
+  // const [activeCommentId, setActiveCommentId] = useState(null);
   const [newCommentPosition, setNewCommentPosition] = useState(null);
   const [commentText, setCommentText] = useState("");
   const imageRef = useRef(null);

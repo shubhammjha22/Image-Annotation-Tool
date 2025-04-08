@@ -17,7 +17,6 @@ const ImageGallery = () => {
   // Handle clicks outside the image viewer
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Only check clicks when in view mode
       if (!viewMode) return;
 
       // Check if click is directly on the overlay (black background)

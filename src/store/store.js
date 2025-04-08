@@ -93,6 +93,30 @@ export const useStore = create(
           return { images: updatedImages };
         }),
 
+      updateReply: (imageIndex, commentId, replyId, newText) =>
+        set((state) => {
+          const updatedImages = [...state.images];
+          if (!updatedImages[imageIndex]) return state;
+
+          const commentIndex = updatedImages[imageIndex].comments.findIndex(
+            (c) => c.id === commentId
+          );
+
+          if (commentIndex === -1) return state;
+
+          const replyIndex = updatedImages[imageIndex].comments[
+            commentIndex
+          ].replies.findIndex((r) => r.id === replyId);
+
+          if (replyIndex === -1) return state;
+
+          updatedImages[imageIndex].comments[commentIndex].replies[
+            replyIndex
+          ].text = newText;
+
+          return { images: updatedImages };
+        }),
+
       deleteReply: (imageIndex, commentId, replyId) =>
         set((state) => {
           const updatedImages = [...state.images];

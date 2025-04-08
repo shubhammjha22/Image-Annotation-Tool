@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { useStore } from "../store/store";
 
 const CommentPopup = ({ comment, onClose, imageIndex }) => {
-  const { updateComment, deleteComment, addReply, deleteReply } = useStore();
+  const { updateComment, deleteComment, addReply, deleteReply, updateReply } =
+    useStore();
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(comment.text);
   const [replyText, setReplyText] = useState("");
@@ -42,6 +43,12 @@ const CommentPopup = ({ comment, onClose, imageIndex }) => {
   const handleSaveEdit = () => {
     if (editedText.trim()) {
       updateComment(imageIndex, comment.id, editedText);
+      setIsEditing(false);
+    }
+  };
+  const handleReplyEditSave = () => {
+    if (editedText.trim()) {
+      updateReply(imageIndex, comment.id, editedText);
       setIsEditing(false);
     }
   };
@@ -117,11 +124,17 @@ const CommentPopup = ({ comment, onClose, imageIndex }) => {
           <ul className="reply-list">
             {comment.replies.map((reply) => (
               <li key={reply.id} className="reply-item">
-                <p className="reply-text">{reply.text}</p>
+                <input className="reply-text" value={reply.text} />
                 <div className="reply-meta">
                   <span className="reply-timestamp">
                     {new Date(reply.timestamp).toLocaleString()}
                   </span>
+                  <button
+                    className="delete-reply-btn"
+                    onClick={() => handleReplyEditSave()}
+                  >
+                    edit
+                  </button>
                   <button
                     className="delete-reply-btn"
                     onClick={() =>
